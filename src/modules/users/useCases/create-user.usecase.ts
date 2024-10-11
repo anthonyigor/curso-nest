@@ -1,12 +1,8 @@
 import { PrismaService } from "src/infra/database/prisma.service";
+import { CreateUserDTO } from "../dto/user.dto";
+import { Injectable } from "@nestjs/common";
 
-export type CreateUserDTO = {
-    name: string;
-    email: string;
-    password: string;
-    username: string;
-}
-
+@Injectable()
 export class CreateUserUseCase {
     constructor(private prisma: PrismaService) {}
 

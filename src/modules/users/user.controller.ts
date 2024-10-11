@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
-import { randomUUID } from "crypto";
+import { CreateUserDTO } from "./dto/user.dto";
+import { CreateUserUseCase } from "./useCases/create-user.usecase";
 
 type ParamsUser = {
     id: string
@@ -10,13 +11,10 @@ type QueryUser = {
     limit: string
 }
 
-type BodyUser = {
-    name: string
-    email: string
-}
-
-@Controller("users")
+@Controller("/users")
 export class UserController {
+    constructor(private readonly createUserUseCase: CreateUserUseCase) {}
+
     // query params
     @Get('/findByPages')
     getUsersByPage(@Query() queries: QueryUser): string {
@@ -30,12 +28,9 @@ export class UserController {
     }
 
     // body
-    @Post('/create')
-    createUser(@Body() data: BodyUser): any {
-        return {
-            ...data,
-            id: randomUUID()
-        }
+    @Post()
+    async create(@Body() data: CreateUserDTO) {
+        return await this.createUserUseCase.execute(data)
     }
 
 
