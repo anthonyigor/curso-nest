@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Query, UsePipes } from "@nestjs/common";
 import { CreateUserDTO } from "./dto/user.dto";
 import { CreateUserUseCase } from "./useCases/create-user.usecase";
+import { CreateUserValidationPipe } from "./pipe/create-user-validation.pipe";
 
 type ParamsUser = {
     id: string
@@ -29,6 +30,7 @@ export class UserController {
 
     // body
     @Post()
+    @UsePipes(new CreateUserValidationPipe())
     async create(@Body() data: CreateUserDTO) {
         return await this.createUserUseCase.execute(data)
     }
