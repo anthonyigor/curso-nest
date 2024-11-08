@@ -4,3 +4,8 @@ export type CreateUserDTO = {
     password: string;
     username: string;
 }
+
+export type CreatedUserDTO = {
+    id: string,
+    createdAt: Date
+} & CreateUserDTO
